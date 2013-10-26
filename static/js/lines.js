@@ -144,17 +144,19 @@ $(document).ready(function(){
         $.post('/api/annotation', data, function(stuff) {
             // .annotations-container
             var container = $('#' + stuff.line.replace(/\./g,'-')).parent().find('.annotations-container');
-            if ($(container).find('.show-annotations')) {
+            if (typeof $(container).find('.show-annotations') != 'undefined' && $(container).find('.show-annotations').length > 0) {
                 // add one to existing container setup
                 $('#single-annotation-template').tmpl(stuff).appendTo(container.find('.show-annotations'));
                 var count = $(container).find('.show-annotations-button').find('strong');
                 $(count).text(parseInt(count.text(),10) + 1);
 
             } else {
+                console.log("it's a newly annotated line");
                 var moreStuff = {
                     count: 1,
                     annotations: [stuff]
                 };
+                console.log($('#annotations-template').tmpl(moreStuff));
                 $('#annotations-template').tmpl(moreStuff).appendTo($(container));
             }
             $('input[type="text"]').val('');
