@@ -96,6 +96,8 @@ h1 {
     color: @teal;
     margin-top: 0;
     margin-bottom: 24px;
+    padding: 24px 0 8px 12px;
+    background: url('/static/img/elsinore-sky.jpg') no-repeat;
 }
 
 .my-button (@color: white) {
@@ -118,10 +120,6 @@ h1 {
     }
 }
 
-.top {
-    margin-top: 24px;
-}
-
 #menu {
     background: @light-gray;
     font-size: 1.1em;
@@ -129,19 +127,20 @@ h1 {
     border-radius: 10px;
     padding: 4px 0;
     width: 100%;
-    margin-top: -8px;
     line-height: 2.8em;
+    margin-top: 16px;
 
     .brand, a {
         display: inline;
         margin: 0 10px 0 0;
+        padding-bottom: 8px;
     }
 
     .brand {
         margin-left: 10px;
         font-weight: 400;
         .glyphicon-edit {
-            // color: @text-color;
+            color: @text-color;
         }
     }
 }
