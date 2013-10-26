@@ -71,6 +71,9 @@ $(document).ready(function(){
             $(annie).parent().children('.line').toggleClass('col-md-6').toggleClass('col-md-3').toggleClass('highlight');
             $(annie).toggleClass('col-md-3').toggleClass('col-md-6');
             $(annie).toggleClass('opened');
+            if ($(annie).hasClass('show-all') && !($(annie).hasClass('opened'))) {
+                $(annie).toggleClass('show-all');
+            }
         };
 
         $('.text').on('click', '.annie-toggle', toggleSpans);
@@ -81,6 +84,9 @@ $(document).ready(function(){
             var annie = $(this).closest('.annie');
             toggleSpans(e, annie);
             $(annie).toggleClass('show-all');
+            if ($(annie).hasClass('show-all') && !($(annie).hasClass('opened'))) {
+                $(annie).toggleClass('show-all');
+            }
         });
     }});
 });
