@@ -1,4 +1,5 @@
 @text-color: #222;
+@lighter-gray: lighten(@text-color, 30%);
 @bg-color: #f9fafc;
 @light-fuchsia: #f1dce3;
 @fuchsia: #845871;
@@ -35,7 +36,6 @@ h3, .text b {
 }
 
 h1 {
-    font-size: 4rem;
     font-weight: 300;
     color: @teal;
 }
@@ -49,7 +49,7 @@ h1 {
     border-bottom: 1pt solid darken(@color, 10%);
     border-right: 1pt solid darken(@color, 10%);
     margin-top: -2px;
-    color: lighten(@text-color, 30%);
+    color: @lighter-gray;
     text-decoration: none;
 }
 
@@ -62,7 +62,7 @@ h1 {
 
 .text {
     i, .author {
-        color: lighten(@text-color, 30%);
+        color: @lighter-gray;
     }
 
     a:not(.button), a:hover:not(.button) {
@@ -107,6 +107,10 @@ h1 {
         }
     }
 
+    .act h2 {
+        border-bottom: 1pt solid @lighter-gray;
+    }
+
     .highlight {
         background: white;
     }
@@ -122,6 +126,11 @@ h1 {
 
         &.opened .add-annotation-button, &.opened.show-all .show-annotations-button {
             display: none !important;
+        }
+
+        .close {
+            clear: right;
+            margin-right: -20px;
         }
     }
 
@@ -149,10 +158,6 @@ h1 {
     }
 
     .add-annotation {
-        .close {
-            clear: right;
-            margin-right: -20px;
-        }
         form, .form-group {
             width: 100%;
         }
@@ -180,4 +185,71 @@ h1 {
 }
 .glyphicon-edit {
     color: @green;
+}
+
+#progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 100%;
+    background: @fuchsia;
+
+    #status {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: red;
+        z-index: 9999;
+        
+        .glyphicon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-top: -8px;
+            margin-right: -13px;
+        }
+    }
+
+    a {
+        color: lighten(@fuchsia, 20%);
+        display: block;
+        line-height: 1em;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        font-size: .6em;
+
+        span {
+            padding-left: 11px;
+            &.glyphicon {
+                padding-left: 2px;
+            }
+
+            &.glyphicon-comment {
+                padding-left: 28px;
+                color: lighten(@teal, 10%);
+            }
+        }
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &.act {
+            color: @bg-color;
+            z-index: 10;
+            font-size: .9em;
+        }
+
+        &.annie {
+            font-size: .9em;
+            z-index: 20;    
+        }
+
+    }
 }

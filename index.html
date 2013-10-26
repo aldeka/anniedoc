@@ -1,6 +1,6 @@
 <!doctype html>
 <head>
-    <title>Elsinore</title>
+    <title>Elsinore &ndash; Hamlet</title>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:900,700,700italic,300,300italic|Merriweather+Sans:300,400,700' rel='stylesheet' type='text/css'>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -15,9 +15,13 @@
 </head>
 <body>
 
+<div id="progress-bar" class="visible-md visible-lg">
+    <span id="status"><span class="glyphicon glyphicon-chevron-left"></span></span>
+</div>
+
 <div class="container">
     <div class="row">
-        <h1>Elsinore</h1>
+        <h1>Hamlet</h1>
     </div>
     <div class="row">
     <section id="play" ng-app="myApp">
@@ -40,7 +44,10 @@
         <button type="button" class="annie-toggle close" aria-hidden="true">&times;</button>
         <form role="form" class="pull-right">
             <div class="form-group">
-            <textarea name="annotation" class="form-control" placeholder="Comment on this line"></textarea>
+                <textarea name="annotation" class="form-control" placeholder="Here is where you share the thoughts that you think"></textarea>
+            </div>
+            <div class="form-group">
+                <input name="author" class="form-control" placeholder="Your name"></input>
             </div>
             <input type="submit" class="button">
         </form>
@@ -55,6 +62,7 @@
     {{/if}}
 
     <div class="show-annotations">
+        <button type="button" class="annie-toggle close" aria-hidden="true">&times;</button>
         {{each annotations}}
             <div class="annotation">
                 <div class="annotation-text">${text}</div>
@@ -63,5 +71,20 @@
         {{/each}}
     </div>
 </script>
+
+<script type="text/html" id="progress-item-template" type="text/x-jquery-tmpl">
+    <a href="#${id}" class="${ type }" style="top: ${position}px" title="${ text }">
+        {{if type=='act'}}
+            <span class="glyphicon glyphicon-tower"></span>
+        {{else}}
+            {{if type=='annie'}}
+                <span class="glyphicon glyphicon-comment"></span>
+            {{else}}
+                <span>&#9632;</span>
+            {{/if}}
+        {{/if}}
+    </a>
+</script>
+
 </body>
 </html>
