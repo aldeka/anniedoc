@@ -15,7 +15,7 @@ def index():
 
 @app.route('/about')
 def about():
-    return 'About page!'
+    return render_template('about.html')
 
 @app.route('/api/annotation', methods=['GET', 'POST'])
 def api():

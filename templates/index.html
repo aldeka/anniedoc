@@ -1,24 +1,27 @@
 <!doctype html>
 <head>
-    <title>anniedoc &ndash; Hamlet</title>
+    <title>anniedoc &ndash; {% block title %}Hamlet{% endblock %}</title>
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/jquery.tmpl.min.js"></script>
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/less/style.less" type="text/less">
     <script src="/static/js/less.min.js" type="text/javascript"></script>
-
+    {% block line_script %}
     <script src="/static/js/lines.js" type="text/javascript"></script>
+    {% endblock %}
 </head>
 <body>
 
+{% block progress_bar %}
 <div id="progress-bar" class="visible-md visible-lg">
     <span id="status"><span class="glyphicon glyphicon-chevron-left"></span></span>
 </div>
+{% endblock %}
 
 <div class="container">
     <div class="top row">
         <div class="col-md-6 col-md-offset-3">
-            <h1>Hamlet</h1>
+            <h1>{% block page_title %}Hamlet{% endblock %}</h1>
         </div>
         <div class="col-md-3">
             <div id="menu">
@@ -29,14 +32,17 @@
         </div>
     </div>
     <div class="row">
+        {% block content %}
     <section id="play" ng-app="myApp">
         <div id="hamlet" class="text col-md-12">
             {% include 'hamlet.html' %}
         </div>
     </section>
+        {% endblock %}
     </div>
 </div>
 
+{% block templates %}
 <script type="text/html" id="annie-template" type="text/x-jquery-tmpl">
 
     <a class='annie-toggle add-annotation-button pull-left' title="Add annotation">
@@ -47,9 +53,10 @@
     </div>
 
     <div class="add-annotation">
+        <button type="button" class="annie-toggle close" aria-hidden="true">&times;</button>
         <form role="form" class="pull-right">
             <div class="form-group">
-                <textarea name="annotation-text" class="form-control" placeholder="Here is where you share the thoughts that you think"></textarea>
+                <textarea name="annotation-text" class="form-control" placeholder="Share your thoughts"></textarea>
             </div>
             <div class="form-group">
                 <input type="text" name="author" class="form-control" placeholder="Your name"></input>
@@ -68,7 +75,6 @@
     {{/if}}
 
     <div class="show-annotations">
-        <button type="button" class="annie-toggle close" aria-hidden="true">&times;</button>
         {{tmpl(annotations) "#single-annotation-template"}}
     </div>
     {% endraw %}
@@ -96,6 +102,7 @@
     </a>
     {% endraw %}
 </script>
+{% endblock %}
 
 </body>
 </html>
