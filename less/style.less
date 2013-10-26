@@ -1,8 +1,10 @@
 @text-color: #222;
-@bg-color: #fafaf9;
-@light-fuchsia: #ffddef;
-@fuchsia: #e60073;
-@orange: #ffa011;
+@bg-color: #f9fafc;
+@light-fuchsia: #d0bbc2;
+@fuchsia: #845871;
+@orange: #9f301d;
+@green: #5d7503;
+@teal: #4d9a94;
 @serif: 'Merriweather', 'Courier New', serif;
 @sans: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
@@ -14,6 +16,14 @@ body {
     color: @text-color;
     font-size: 12pt;
     line-height: 24pt;
+    font-weight: 300;
+}
+
+a {
+    color: @teal;
+    &:hover {
+        color: @orange;
+    }
 }
 
 h1, h2 {
@@ -26,7 +36,7 @@ h3, .text b {
 
 h1 {
     font-size: 4rem;
-    font-weight: 900;
+    font-weight: 300;
     color: @fuchsia;
 }
 
@@ -51,7 +61,7 @@ h1 {
 }
 
 .text {
-    i {
+    i, .author {
         color: lighten(@text-color, 30%);
     }
 
@@ -63,6 +73,10 @@ h1 {
     blockquote {
         border-left: none;
 
+        p {
+            line-height: 24pt;
+        }
+
         .line a {
             display: block;
         }
@@ -70,6 +84,7 @@ h1 {
         .row {
             .add-annotation-button {
                 font-family: @sans;
+                font-weight: 400;
                 display: none;
             }
 
@@ -81,10 +96,10 @@ h1 {
                 .add-annotation-button, .show-annotations-button {
                     display: block;
                     &:hover {
-                        color: @fuchsia;
+                        color: @orange;
                         cursor: pointer;
                         .glyphicon {
-                            color: @fuchsia;
+                            color: @orange;
                         }
                     }
                 }
@@ -92,30 +107,56 @@ h1 {
         }
     }
 
+    .highlight {
+        background: white;
+    }
+
     .annie {
         .add-annotation, .show-annotations {
             display: none;
         }
 
-        &.opened .add-annotation, &.opened .show-annotations {
+        &.opened .add-annotation, &.opened.show-all .show-annotations {
             display: block;
         }
 
-        &.opened .add-annotation-button, &.opened .show-annotations-button {
+        &.opened .add-annotation-button, &.opened.show-all .show-annotations-button {
             display: none !important;
         }
     }
 
-    .show-annotations-button .glyphicon {
-        color: @orange;
+    .show-annotations-button {
+        font-family: @sans;
+        strong {
+            font-weight: 400;
+        }
+    }
+
+    .annotation-text, .author {
+        float: right;
+        clear: right;
+        font-size: .85em;
+    }
+
+    .annotation-text {
+        text-align: justify;
+    }
+
+    .author {
+        margin: 0 0 16px 0;
+        text-align: right;
+        line-height: 1em;
     }
 
     .add-annotation {
         .close {
+            clear: right;
             margin-right: -20px;
         }
+        form, .form-group {
+            width: 100%;
+        }
         textarea {
-            width: 500px;
             height: 7em;
             color: @text-color;
         }
@@ -130,4 +171,11 @@ h1 {
             box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(230,0,115,0.6);
         }
     }
+}
+
+.glyphicon-comment {
+    color: @teal;
+}
+.glyphicon-edit {
+    color: @green;
 }
