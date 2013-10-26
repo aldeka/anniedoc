@@ -151,14 +151,14 @@ $(document).ready(function(){
                 $(count).text(parseInt(count.text(),10) + 1);
 
             } else {
-                console.log("it's a newly annotated line");
+                // line is being annotated for the first time
                 var moreStuff = {
                     count: 1,
                     annotations: [stuff]
                 };
-                console.log($('#annotations-template').tmpl(moreStuff));
                 $('#annotations-template').tmpl(moreStuff).appendTo($(container));
             }
+            // clear the input form
             $('input[type="text"]').val('');
             $('textarea').val('');
         }, "json");

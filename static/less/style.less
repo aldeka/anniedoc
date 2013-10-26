@@ -1,3 +1,57 @@
+@font-face {
+  font-family: "Merriweather";
+  src: local("Merriweather"),
+  url('/static/fonts/merriweather/merriweather-light-webfont.ttf'),
+  url('/static/fonts/merriweather/merriweather-light-webfont.woff'),
+  url('/static/fonts/merriweather/merriweather-light-webfont.eot');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  src: local("Merriweather"),
+  url('/static/fonts/merriweather/merriweather-lightitalic-webfont.ttf'),
+  url('/static/fonts/merriweather/merriweather-lightitalic-webfont.woff'),
+  url('/static/fonts/merriweather/merriweather-lightitalic-webfont.eot');
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Merriweather";
+  src: local("Merriweather"),
+  url('/static/fonts/merriweather/merriweather-bold-webfont.ttf'),
+  url('/static/fonts/merriweather/merriweather-bold-webfont.woff'),
+  url('/static/fonts/merriweather/merriweather-bold-webfont.eot');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Merriweather Sans";
+  src: local("Merriweather Sans"),
+  url('/static/fonts/merriweathersans/merriweathersans-light-webfont.ttf'),
+  url('/static/fonts/merriweathersans/merriweathersans-light-webfont.woff'),
+  url('/static/fonts/merriweathersans/merriweathersans-light-webfont.eot');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Merriweather Sans";
+  src: local("Merriweather Sans"),
+  url('/static/fonts/merriweathersans/merriweathersans-regular-webfont.ttf'),
+  url('/static/fonts/merriweathersans/merriweathersans-regular-webfont.woff'),
+  url('/static/fonts/merriweathersans/merriweathersans-regular-webfont.eot');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Merriweather Sans";
+  src: local("Merriweather Sans"),
+  url('/static/fonts/merriweathersans/merriweathersans-bold-webfont.ttf'),
+  url('/static/fonts/merriweathersans/merriweathersans-bold-webfont.woff'),
+  url('/static/fonts/merriweathersans/merriweathersans-bold-webfont.eot');
+  font-weight: 700;
+}
+
 @text-color: #222;
 @light-gray: lighten(#ad9f84, 25%);
 @lighter-gray: lighten(@text-color, 30%);
@@ -76,6 +130,7 @@ h1 {
     padding: 4px 0;
     width: 100%;
     margin-top: -8px;
+    line-height: 2.8em;
 
     .brand, a {
         display: inline;
