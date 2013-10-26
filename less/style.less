@@ -1,10 +1,11 @@
 @text-color: #222;
+@light-gray: lighten(#ad9f84, 25%);
 @lighter-gray: lighten(@text-color, 30%);
 @bg-color: #f9fafc;
 @light-fuchsia: #f1dce3;
 @fuchsia: #845871;
 @orange: #9f301d;
-@green: #5d7503;
+@green: #509010;
 @teal: #4d9a94;
 @serif: 'Merriweather', 'Courier New', serif;
 @sans: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -23,7 +24,7 @@ body {
 a {
     color: @teal;
     &:hover {
-        color: @orange;
+        color: @green;
     }
 }
 
@@ -36,8 +37,11 @@ h3, .text b {
 }
 
 h1 {
+    font-size: 2.8em;
     font-weight: 300;
     color: @teal;
+    margin-top: 0;
+    margin-bottom: 24px;
 }
 
 .my-button (@color: white) {
@@ -60,6 +64,32 @@ h1 {
     }
 }
 
+.top {
+    margin-top: 20px;
+}
+
+#menu {
+    background: @light-gray;
+    font-size: 1.1em;
+    font-family: @sans;
+    border-radius: 10px;
+    padding: 4px 0;
+    width: 100%;
+
+    .brand, a {
+        display: inline;
+        margin: 0 10px 0 0;
+    }
+
+    .brand {
+        margin-left: 10px;
+        font-weight: 400;
+        .glyphicon-edit {
+            // color: @text-color;
+        }
+    }
+}
+
 .text {
     i, .author {
         color: @lighter-gray;
@@ -72,12 +102,15 @@ h1 {
 
     blockquote {
         border-left: none;
+        padding-left: 0;
+        padding-right: 0;
 
         p {
             line-height: 24pt;
         }
 
         .line a {
+            padding-left: 20px;
             display: block;
         }
 
@@ -96,10 +129,10 @@ h1 {
                 .add-annotation-button, .show-annotations-button {
                     display: block;
                     &:hover {
-                        color: @orange;
+                        color: @green;
                         cursor: pointer;
                         .glyphicon {
-                            color: @orange;
+                            color: @green;
                         }
                     }
                 }
@@ -184,7 +217,7 @@ h1 {
     color: @teal;
 }
 .glyphicon-edit {
-    color: @green;
+    color: @fuchsia;
 }
 
 #progress-bar {
