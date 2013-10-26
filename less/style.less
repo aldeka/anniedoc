@@ -1,0 +1,103 @@
+@text-color: #222;
+@bg-color: #fafaf9;
+@light-fuchsia: #ffb0cc;
+@fuchsia: #e60073;
+@serif: 'Merriweather', 'Courier New', serif;
+@sans: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+body {
+    margin: 0;
+    padding: 0;
+    background: @bg-color;
+    font-family: @serif;
+    color: @text-color;
+    font-size: 12pt;
+    line-height: 24pt;
+}
+
+h2, h3, .text b {
+    font-family: @sans;
+}
+
+h1 {
+    font-family: @serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: @fuchsia;
+}
+
+.my-button (@color: white) {
+    border-radius: 10px;
+    padding: 0 12px;
+    background: @color;
+    border-top: 1pt solid darken(@color, 5%);
+    border-left: 1pt solid darken(@color, 5%);
+    border-bottom: 1pt solid darken(@color, 10%);
+    border-right: 1pt solid darken(@color, 10%);
+}
+
+.button {
+    .my-button();
+    &:hover {
+        .my-button(darken(@bg-color, 10%));
+    }
+}
+
+.text {
+    a, a:hover {
+        color: @text-color;
+        text-decoration: none;
+    }
+
+    i {
+        color: lighten(@text-color, 35%);
+    }
+
+    blockquote {
+        border-left: none;
+
+        .line a {
+            display: block;
+        }
+
+        .row {
+            .add-annotation-button {
+                font-size: 1rem;
+                display: none;
+            }
+
+            &:hover {
+                .line a {
+                    color: black;
+                }
+
+                .add-annotation-button {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .annie {
+        .add-annotation {
+            display: none;
+        }
+
+        &.opened .add-annotation {
+            display: block;
+        }
+
+        &.opened .add-annotation-button {
+            display: none !important;
+        }
+    }
+
+    .add-annotation {
+        .close {
+            margin-right: -20px;
+        }
+        input[type=submit] {
+            font-family: @sans;
+        }
+    }
+}
