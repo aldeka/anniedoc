@@ -1,7 +1,8 @@
 @text-color: #222;
 @bg-color: #fafaf9;
-@light-fuchsia: #ffb0cc;
+@light-fuchsia: #ffddef;
 @fuchsia: #e60073;
+@orange: #ffa011;
 @serif: 'Merriweather', 'Courier New', serif;
 @sans: 'Merriweather Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
@@ -15,12 +16,15 @@ body {
     line-height: 24pt;
 }
 
-h2, h3, .text b {
+h1, h2 {
+    font-family: @serif;
+}
+
+h3, .text b {
     font-family: @sans;
 }
 
 h1 {
-    font-family: @serif;
     font-size: 4rem;
     font-weight: 900;
     color: @fuchsia;
@@ -28,29 +32,32 @@ h1 {
 
 .my-button (@color: white) {
     border-radius: 10px;
-    padding: 0 12px;
+    padding: 0 15px;
     background: @color;
     border-top: 1pt solid darken(@color, 5%);
     border-left: 1pt solid darken(@color, 5%);
     border-bottom: 1pt solid darken(@color, 10%);
     border-right: 1pt solid darken(@color, 10%);
+    margin-top: -2px;
+    color: lighten(@text-color, 30%);
+    text-decoration: none;
 }
 
 .button {
     .my-button();
     &:hover {
-        .my-button(darken(@bg-color, 10%));
+        .my-button(@light-fuchsia);
     }
 }
 
 .text {
-    a, a:hover {
-        color: @text-color;
-        text-decoration: none;
+    i {
+        color: lighten(@text-color, 30%);
     }
 
-    i {
-        color: lighten(@text-color, 35%);
+    a:not(.button), a:hover:not(.button) {
+        color: @text-color;
+        text-decoration: none;
     }
 
     blockquote {
@@ -62,7 +69,7 @@ h1 {
 
         .row {
             .add-annotation-button {
-                font-size: 1rem;
+                font-family: @sans;
                 display: none;
             }
 
@@ -71,33 +78,56 @@ h1 {
                     color: black;
                 }
 
-                .add-annotation-button {
+                .add-annotation-button, .show-annotations-button {
                     display: block;
+                    &:hover {
+                        color: @fuchsia;
+                        cursor: pointer;
+                        .glyphicon {
+                            color: @fuchsia;
+                        }
+                    }
                 }
             }
         }
     }
 
     .annie {
-        .add-annotation {
+        .add-annotation, .show-annotations {
             display: none;
         }
 
-        &.opened .add-annotation {
+        &.opened .add-annotation, &.opened .show-annotations {
             display: block;
         }
 
-        &.opened .add-annotation-button {
+        &.opened .add-annotation-button, &.opened .show-annotations-button {
             display: none !important;
         }
+    }
+
+    .show-annotations-button .glyphicon {
+        color: @orange;
     }
 
     .add-annotation {
         .close {
             margin-right: -20px;
         }
+        textarea {
+            width: 500px;
+            height: 7em;
+            color: @text-color;
+        }
         input[type=submit] {
             font-family: @sans;
+            float: right;
+        }
+
+        .form-control:focus {
+            border: 1pt solid @fuchsia;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(230,0,115,0.6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(230,0,115,0.6);
         }
     }
 }
