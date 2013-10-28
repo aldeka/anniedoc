@@ -86,7 +86,7 @@ h1, h2 {
     font-family: @serif;
 }
 
-h3, .text b {
+h3, .text b, strong {
     font-family: @sans;
 }
 
@@ -146,7 +146,7 @@ h1 {
 }
 
 .text {
-    i, .author {
+    .author {
         color: @lighter-gray;
     }
 
@@ -160,55 +160,53 @@ h1 {
         text-decoration: none;
     }
 
-    blockquote {
-        border-left: none;
-        padding-left: 0;
-        padding-right: 0;
-        margin-bottom: 0;
+    p {
+        line-height: 24pt;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 17px;
+    }
 
-        p {
-            line-height: 24pt;
-            padding-top: 10px;
-            padding-bottom: 10px;
+    .para a {
+        padding-left: 20px;
+        display: block;
+    }
+
+    .row {
+        .add-annotation-button {
+            font-family: @sans;
+            font-weight: 400;
+            display: none;
         }
 
-        p, i {
-            font-size: 17px;
-        }
-
-        .line a {
-            padding-left: 20px;
-            display: block;
-        }
-
-        .row {
-            .add-annotation-button {
-                font-family: @sans;
-                font-weight: 400;
-                display: none;
+        &:hover {
+            .line a {
+                color: black;
             }
 
-            &:hover {
-                .line a {
-                    color: black;
-                }
-
-                .add-annotation-button, .show-annotations-button {
-                    display: block;
-                    &:hover {
+            .add-annotation-button, .show-annotations-button {
+                display: block;
+                &:hover {
+                    color: @green;
+                    cursor: pointer;
+                    .glyphicon {
                         color: @green;
-                        cursor: pointer;
-                        .glyphicon {
-                            color: @green;
-                        }
                     }
                 }
             }
         }
     }
 
-    .act h2 {
+    .act h2, strong i {
         border-bottom: 1pt solid @lighter-gray;
+    }
+
+    strong i {
+        font-size: 2em;
+        font-style: normal;
+        font-weight: 300;
+        display: block;
+        color: @text-color;
     }
 
     .highlight {
