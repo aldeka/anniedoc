@@ -5,11 +5,6 @@ $(document).ready(function(){
      * Lots of DOM setup, first...
      *
      */
-
-    var title = $("#bowman").clone().children().remove().end().text();
-    $('h1').text(title);
-    $('#bowman').css('color','#f9fafc');
-    $('#bowman').children().css('color', '#222');
     /* Make a div for the annotation interface to live for each line */
     $.each($('#bowman').children(), function(i, val) {
         if ($(val).is('p')) {
@@ -27,6 +22,11 @@ $(document).ready(function(){
         }
     });
 
+    var title = $("#bowman").clone().children().remove().end().text();
+    $('h1').text(title);
+    $('#bowman').css('color','#f9fafc');
+    $('#bowman').children().css('color', '#222');
+
     /*  Put the basic annotation template, with addition UI, 
         next to each line */
     $('#annie-template').tmpl({}).appendTo('.annie');
@@ -37,37 +37,37 @@ $(document).ready(function(){
             // console.log(annieData);
             for (var i = 0; i < annieData.keys.length; i++) {
                 var val = annieData.keys[i];
-                console.log(annieData[val]);
+                // console.log(annieData[val]);
                 var container = $('#' + val).parent().find('.annotations-container');
                 $('#annotations-template').tmpl(annieData[val]).appendTo($(container));
             }
-            /*
-             * Add annotations to progress bar!
-             */
-            var progressBarThreshold = 1;
-            if ($('.show-annotations-button').length > 25) {
-                progressBarThreshold += Math.floor($('.show-annotations-button').length / 25);
-            }
-            $.each($('.show-annotations-button'), function(i, val){
-                var annieCount = $(val).children('strong').text();
-                if (parseInt(annieCount,10) >= progressBarThreshold){
-                    if (parseInt(annieCount,10) == 1) {
-                        annieCount = annieCount + ' annotation';
-                    } else {
-                        annieCount = annieCount + ' annotations';
-                    }
-                    var annieLine = $(val).closest('.row').find('.para').attr('id');
-                    var annieLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#progress-bar').height() / $('#bowman').height();
-                    $('#progress-item-template').tmpl({
-                        type: 'annie',
-                        id: annieLine,
-                        text: annieCount,
-                        position: Math.floor(annieLocation)
-                        }).appendTo($('#progress-bar'));
-                }
-            });
+
+            calculateAnniePositions();
         }
     );
+
+    var calculateAnniePositions = function() {
+        /*
+         * Add annotations to progress bar!
+         */
+        $.each($('.show-annotations-button'), function(i, val){
+            console.log('running');
+            var annieCount = $(val).children('strong').text();
+            if (parseInt(annieCount,10) == 1) {
+                annieCount = annieCount + ' annotation';
+            } else if (parseInt(annieCount,10) > 1) {
+                annieCount = annieCount + ' annotations';
+            }
+            var annieLine = $(val).closest('.row').find('.para').attr('id');
+            var annieLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#progress-bar').height() / $('#bowman').height();
+            $('#progress-item-template').tmpl({
+                type: 'annie',
+                id: annieLine,
+                text: annieCount,
+                position: Math.floor(annieLocation)
+                }).appendTo($('#progress-bar'));
+        });
+    };
 
     var calculateDocPosition = function() {
         var bottomOfWindow = $(window).height() + $(window).scrollTop();
@@ -87,7 +87,6 @@ $(document).ready(function(){
         /* Mark up act and scene headers
          * and add them to progress bar
          */
-
         $.each($('strong i'), function(i, val){
             var newAct = 'section-' + (i+1).toString();
             $(val).closest('.row').addClass('section').attr('id', newAct);
@@ -99,10 +98,8 @@ $(document).ready(function(){
                 position: Math.floor(actLocation)
                 }).appendTo($('#progress-bar'));
         });
-
         var currentAct = 0;
         var currentScene = 1;
-
         $.each($('h3'), function(i, val) {
             var row = $(val).closest('.row');
             var actNum = $($(row).prevAll('.act').first()[0]).attr('id').slice(4);
@@ -123,6 +120,7 @@ $(document).ready(function(){
                 }).appendTo($('#progress-bar'));
         });
 
+        calculateAnniePositions();
         calculateDocPosition();
     };
 
@@ -158,13 +156,13 @@ $(document).ready(function(){
 
     $('.text').on('submit', '.add-annotation form', function(e){
         e.preventDefault();
-        console.log('submitting!');
+        //console.log('submitting!');
         data = {
             author: $(this).find('[name="author"]').val(),
             text: $(this).find('[name="annotation-text"]').val(),
             line: $(this).closest('.row').find('.para').attr('id')
         };
-        console.log(data);
+        //console.log(data);
         $.post('/api/annotation', data, function(stuff) {
             // .annotations-container
             var container = $('#' + stuff.line).parent().find('.annotations-container');
