@@ -1,8 +1,8 @@
 import json
+import os
 from flask import Flask, request, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.csrf import csrf
-from localconfig import secret
 
 DEBUG = True
 
@@ -11,7 +11,13 @@ app.config.from_object(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/karen/Code/elsinore/test.db'
 db = SQLAlchemy(app)
 
-app.secret_key = secret
+try:
+    session_secret = os.environ['SESSION_SECRET']
+except KeyError:
+    from localconfig import secret
+    session_secret = secret
+
+app.secret_key = session_secret
 csrf(app)
 
 @app.route('/')
