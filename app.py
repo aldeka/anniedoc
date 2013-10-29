@@ -34,8 +34,13 @@ def api():
         print request.form
         a = Annotation(request.form['line'], request.form['author'], request.form['text'])
         print a
-        db.session.add(a)
-        db.session.commit()
+        try:
+            db.session.add(a)
+            db.session.commit()
+        except OperationalError:
+            db.create_all()
+            db.session.add(a)
+            db.session.commit()
         dico = {
             'id': a.id, 
             'author': a.author,
