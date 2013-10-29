@@ -37,7 +37,7 @@ def api():
         try:
             db.session.add(a)
             db.session.commit()
-        except OperationalError:
+        except:
             db.create_all()
             db.session.add(a)
             db.session.commit()
