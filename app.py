@@ -11,15 +11,16 @@ app.config.from_object(__name__)
 
 try:
     session_secret = os.environ['SESSION_SECRET']
-    postgres_password = os.environ['DB_PWD']
+    db_uri = os.environ['DATABASE_URL']
 except KeyError:
     from localconfig import secret, postgres_password
     postgres_password = postgres_password
     session_secret = secret
+    db_uri = 'postgresql://annie:' + postgres_password + "@localhost/annotationdb"
 
 app.secret_key = session_secret
 csrf(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://annie:' + postgres_password + '@localhost/annotationdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(app)
 
 @app.route('/')
