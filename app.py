@@ -1,13 +1,18 @@
 import json
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+from flask import Flask, request, session, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.csrf import csrf
+from localconfig import secret
 
 DEBUG = True
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/karen/Code/elsinore/test.db'
 db = SQLAlchemy(app)
+
+app.secret_key = secret
+csrf(app)
 
 @app.route('/')
 def index():

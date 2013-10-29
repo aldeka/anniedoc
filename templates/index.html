@@ -55,6 +55,7 @@
     <div class="add-annotation">
         <button type="button" class="annie-toggle close" aria-hidden="true">&times;</button>
         <form role="form" class="pull-right">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
             <div class="form-group">
                 <textarea name="annotation-text" class="form-control" placeholder="Share your thoughts"></textarea>
             </div>

@@ -137,6 +137,7 @@ $(document).ready(function(){
     $('.text').on('submit', '.add-annotation form', function(e){
         e.preventDefault();
         data = {
+            _csrf_token : $(this).find('[name="_csrf_token"]').val(),
             author: $(this).find('[name="author"]').val(),
             text: $(this).find('[name="annotation-text"]').val(),
             line: $(this).closest('.row').find('.line').attr('id').replace(/-/g,'.')
