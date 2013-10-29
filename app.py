@@ -1,5 +1,5 @@
 import json
-from flask import Flask, request, session, render_template
+from flask import Flask, request, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.csrf import csrf
 from localconfig import secret
