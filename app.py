@@ -49,7 +49,11 @@ def api():
             }
         return json.dumps(dico)
     else:
-        all_annotations = Annotation.query.all()
+        try:
+            all_annotations = Annotation.query.all()
+        except:
+            db.create_all()
+            all_annotations = Annotation.query.all()
         data = {}
         data['keys'] = []
         for annotation in all_annotations:
