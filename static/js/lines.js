@@ -1,3 +1,7 @@
+$.trim = function(blah) {
+    return blah.replace( /[\s\n\r]+/g, ' ' );
+};
+
 $(document).ready(function(){
     console.log('loaded');
     /*
@@ -11,14 +15,14 @@ $(document).ready(function(){
             // Remove extraneous linebreaks
             $(val).children('br').remove();
             // Wrap it
-            $(val).wrap("<div class='row'><div class='para col-md-6 col-md-offset-3'></div><div class='col-md-3 annie'></div></div>");
+            $(val).wrap("<div class='row'><div class='para col-md-8 col-md-offset-2'></div><div class='col-md-2 annie'></div></div>");
             var id = '';
             if ($(val).attr('data-paragraph-id')) {
                 id = $(val).attr('data-paragraph-id');
             }
             $(val).parent().attr('id', id);
         } else {
-            $(val).wrap("<div class='row'><div class='col-md-6 col-md-offset-3'></div></div>");
+            $(val).wrap("<div class='row'><div class='col-md-8 col-md-offset-2'></div></div>");
         }
     });
 
@@ -48,7 +52,7 @@ $(document).ready(function(){
 
     var calculateAnniePositions = function() {
         /*
-         * Add annotations to progress bar!
+         * Add annotations to docmap bar!
          */
         $.each($('.show-annotations-button'), function(i, val){
             console.log('running');
@@ -59,44 +63,49 @@ $(document).ready(function(){
                 annieCount = annieCount + ' annotations';
             }
             var annieLine = $(val).closest('.row').find('.para').attr('id');
-            var annieLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#progress-bar').height() / $('#bowman').height();
-            $('#progress-item-template').tmpl({
+            var annieLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#docmap').height() / $('#bowman').height();
+            $('#docmap-item-template').tmpl({
                 type: 'annie',
                 id: annieLine,
                 text: annieCount,
-                position: Math.floor(annieLocation)
-                }).appendTo($('#progress-bar'));
+                position: Math.floor(annieLocation) - 7
+                }).appendTo($('#docmap'));
         });
     };
 
     var calculateDocPosition = function() {
-        var bottomOfWindow = $(window).height() + $(window).scrollTop();
-        var percentComplete = (bottomOfWindow - $('#bowman').offset().top) / $('#bowman').height();
+        var topOfWindow = $(window).scrollTop();
+        var percentComplete = (topOfWindow - $('#bowman').offset().top) / $('#bowman').height();
 
         if (percentComplete > 1) {
             percentComplete = 1;
         }
 
-        $('#status').css('top', (percentComplete * $('#progress-bar').height()).toString() + 'px');
+        var rawPosition = percentComplete * $('#docmap').height();
+        if (rawPosition < 0) {
+            rawPosition = 0;
+        }
+
+        $('#status').css('top', rawPosition.toString() + 'px');
     };
 
     var calculateDocMap = function() {
-        // clear current progress bar objects 
-        $('#progress-bar a').remove();
+        // clear current docmap objects 
+        $('#docmap a').remove();
 
         /* Mark up act and scene headers
-         * and add them to progress bar
+         * and add them to docmap
          */
         $.each($('strong i'), function(i, val){
             var newAct = 'section-' + (i+1).toString();
             $(val).closest('.row').addClass('section').attr('id', newAct);
-            var actLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#progress-bar').height() / $('#bowman').height();
-            $('#progress-item-template').tmpl({
+            var actLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#docmap').height() / $('#bowman').height();
+            $('#docmap-item-template').tmpl({
                 type: 'act',
                 id: newAct,
-                text: $(val).text(),
-                position: Math.floor(actLocation)
-                }).appendTo($('#progress-bar'));
+                text: $.trim($(val).text()),
+                position: Math.floor(actLocation) - 3
+                }).appendTo($('#docmap'));
         });
         var currentAct = 0;
         var currentScene = 1;
@@ -111,13 +120,13 @@ $(document).ready(function(){
             }
             var newScene = actNum + '-' + currentScene.toString();
             $(val).addClass('scene').attr('id', newScene);
-            var sceneLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#progress-bar').height() / $('#bowman').height();
-            $('#progress-item-template').tmpl({
+            var sceneLocation = ($(val).offset().top - $('#bowman').offset().top) * $('#docmap').height() / $('#bowman').height();
+            $('#docmap-item-template').tmpl({
                 type: 'scene',
                 id: newScene,
-                text: $(val).text(),
-                position: Math.floor(sceneLocation)
-                }).appendTo($('#progress-bar'));
+                text: $.trim($(val).text()),
+                position: Math.floor(sceneLocation) - 3
+                }).appendTo($('#docmap'));
         });
 
         calculateAnniePositions();
@@ -140,8 +149,8 @@ $(document).ready(function(){
         } else {
             annie = $(this).closest('.annie');
         }
-        $(annie).parent().children('.para').toggleClass('col-md-offset-3').toggleClass('highlight');
-        $(annie).toggleClass('col-md-3').toggleClass('col-md-6');
+        $(annie).parent().children('.para').toggleClass('col-md-offset-2').toggleClass('highlight');
+        $(annie).toggleClass('col-md-2').toggleClass('col-md-4');
         $(annie).toggleClass('opened');
     };
 

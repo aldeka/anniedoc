@@ -211,22 +211,27 @@ h1 {
 
     .highlight {
         background: white;
+        z-index: 2000;
     }
 
     .annie {
+        padding-top: 10px;
+
         .add-annotation, .show-annotations {
             display: none;
         }
 
-        &.opened .add-annotation, &.opened .show-annotations {
-            display: block;
-        }
-
-        &.opened .add-annotation-button, &.opened .show-annotations-button {
-            display: none !important;
+        &.opened {
+            .add-annotation, .show-annotations, .close {
+                display: block;
+            }
+            .add-annotation-button, .show-annotations-button {
+                display: none !important;
+            }
         }
 
         .close {
+            display: none;
             clear: right;
             margin-right: -20px;
         }
@@ -239,10 +244,22 @@ h1 {
         }
     }
 
+    .show-annotations {
+        max-height: 400px;
+        width: 100%;
+        padding-right: 5px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+    }
+
     .annotation-text, .author {
         float: right;
         clear: right;
-        font-size: .85em;
+    }
+
+    .annotation-text, .author, .add-annotation {
+        font-size: 10pt;
+        line-height: 1.7em;
     }
 
     .annotation-text {
@@ -285,12 +302,13 @@ h1 {
     color: @fuchsia;
 }
 
-#progress-bar {
+#docmap {
     position: fixed;
     top: 0;
     left: 0;
     width: 48px;
     height: 100%;
+    z-index: 100;
     background: @fuchsia;
 
     #status {
@@ -319,7 +337,7 @@ h1 {
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 1;
+        z-index: 101;
         font-size: .6em;
 
         span {
@@ -340,13 +358,13 @@ h1 {
 
         &.act {
             color: @bg-color;
-            z-index: 10;
+            z-index: 110;
             font-size: .9em;
         }
 
         &.annie {
             font-size: .9em;
-            z-index: 20;    
+            z-index: 109;    
         }
 
     }
