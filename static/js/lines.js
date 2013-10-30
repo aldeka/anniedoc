@@ -42,7 +42,7 @@ $(document).ready(function(){
             } else if (parseInt(annieCount,10) > 1) {
                 annieCount = annieCount + ' annotations';
             }
-            var annieLine = $(val).closest('.row').find('.para').attr('id');
+            var annieLine = $(val).closest('.row').find('.line').attr('id');
             var annieLocation = ($(val).offset().top - $('#hamlet').offset().top) * $('#docmap').height() / $('#hamlet').height();
             $('#docmap-item-template').tmpl({
                 type: 'annie',
