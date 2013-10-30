@@ -30,6 +30,29 @@ $(document).ready(function(){
         next to each line */
     $('#annie-template').tmpl({}).appendTo('.annie');
 
+    var calculateAnniePositions = function() {
+        /*
+         * Add annotations to docmap bar!
+         */
+        $.each($('.show-annotations-button'), function(i, val){
+            console.log('running');
+            var annieCount = $(val).children('strong').text();
+            if (parseInt(annieCount,10) == 1) {
+                annieCount = annieCount + ' annotation';
+            } else if (parseInt(annieCount,10) > 1) {
+                annieCount = annieCount + ' annotations';
+            }
+            var annieLine = $(val).closest('.row').find('.para').attr('id');
+            var annieLocation = ($(val).offset().top - $('#hamlet').offset().top) * $('#docmap').height() / $('#hamlet').height();
+            $('#docmap-item-template').tmpl({
+                type: 'annie',
+                id: annieLine,
+                text: annieCount,
+                position: Math.floor(annieLocation) - 7
+                }).appendTo($('#docmap'));
+        });
+    };
+
     /* request annotation data from Flask */
     $.getJSON('/api/annotation',
         function(annieData) {
@@ -39,72 +62,70 @@ $(document).ready(function(){
                 var container = $('#' + val.replace(/\./g,'-')).parent().find('.annotations-container');
                 $('#annotations-template').tmpl(annieData[val]).appendTo($(container));
             }
-            /*
-             * Add annotations to progress bar!
-             */
-            var progressBarThreshold = 1;
-            if ($('.show-annotations-button').length > 25) {
-                progressBarThreshold += Math.floor($('.show-annotations-button').length / 25);
-            }
-            $.each($('.show-annotations-button'), function(i, val){
-                var annieCount = $(val).children('strong').text();
-                if (parseInt(annieCount,10) >= progressBarThreshold){
-                    if (parseInt(annieCount,10) == 1) {
-                        annieCount = annieCount + ' annotation';
-                    } else {
-                        annieCount = annieCount + ' annotations';
-                    }
-                    var annieLine = $(val).closest('.row').find('.line').attr('id');
-                    var annieLocation = ($(val).offset().top - $('#hamlet').offset().top) * $('#progress-bar').height() / $('#hamlet').height();
-                    $('#progress-item-template').tmpl({
-                        type: 'annie',
-                        id: annieLine,
-                        text: annieCount,
-                        position: Math.floor(annieLocation)
-                        }).appendTo($('#progress-bar'));
-                }
-            });
+
+            calculateAnniePositions();
         }
     );
 
-    /* Mark up act and scene headers
-     * and add them to progress bar
-     */
-
-    $.each($('h2'), function(i, val){
-        var newAct = 'act-' + (i+1).toString();
-        $(val).closest('.row').addClass('act').attr('id', newAct);
-        var actLocation = ($(val).offset().top - $('#hamlet').offset().top) * $('#progress-bar').height() / $('#hamlet').height();
-        $('#progress-item-template').tmpl({
-            type: 'act',
-            id: newAct,
-            text: $(val).text(),
-            position: Math.floor(actLocation)
-            }).appendTo($('#progress-bar'));
-    });
-
-    var currentAct = 0;
-    var currentScene = 1;
-
-    $.each($('h3'), function(i, val) {
-        var row = $(val).closest('.row');
-        var actNum = $($(row).prevAll('.act').first()[0]).attr('id').slice(4);
-        if (parseInt(actNum,10) > currentAct) {
-            currentAct = parseInt(actNum,10);
-            currentScene = 1;
-        } else {
-            currentScene += 1;
+    var calculateDocPosition = function() {
+        var topOfWindow = $(window).scrollTop();
+        var percentComplete = (topOfWindow - $('#hamlet').offset().top) / $('#hamlet').height();
+        if (percentComplete > 1) {
+            percentComplete = 1;
         }
-        var newScene = actNum + '-' + currentScene.toString();
-        $(val).addClass('scene').attr('id', newScene);
-        var sceneLocation = ($(val).offset().top - $('#hamlet').offset().top) * $('#progress-bar').height() / $('#hamlet').height();
-        $('#progress-item-template').tmpl({
-            type: 'scene',
-            id: newScene,
-            text: $(val).text(),
-            position: Math.floor(sceneLocation)
-            }).appendTo($('#progress-bar'));
-    });
+        var rawPosition = percentComplete * $('#docmap').height();
+        if (rawPosition < 0) {
+            rawPosition = 0;
+        }
+
+        $('#status').css('top', rawPosition.toString() + 'px');
+    };
+
+    var calculateDocMap = function() {
+        // clear current docmap objects 
+        $('#docmap a').remove();
+
+        /* Mark up act and scene headers
+         * and add them to docmap
+         */
+        $.each($('h2'), function(i, val){
+            var newAct = 'act-' + (i+1).toString();
+            $(val).closest('.row').addClass('act').attr('id', newAct);
+            var actLocation = ($(val).offset().top - $('#hamlet').offset().top) * $('#docmap').height() / $('#hamlet').height();
+            $('#docmap-item-template').tmpl({
+                type: 'act',
+                id: newAct,
+                text: $.trim($(val).text()),
+                position: Math.floor(actLocation) - 3
+                }).appendTo($('#docmap'));
+        });
+        var currentAct = 0;
+        var currentScene = 1;
+        $.each($('h3'), function(i, val) {
+            var row = $(val).closest('.row');
+            var actNum = $($(row).prevAll('.act').first()[0]).attr('id').slice(4);
+            if (parseInt(actNum,10) > currentAct) {
+                currentAct = parseInt(actNum,10);
+                currentScene = 1;
+            } else {
+                currentScene += 1;
+            }
+            var newScene = actNum + '-' + currentScene.toString();
+            $(val).addClass('scene').attr('id', newScene);
+            var sceneLocation = ($(val).offset().top - $('#hamlet').offset().top) * $('#docmap').height() / $('#hamlet').height();
+            $('#docmap-item-template').tmpl({
+                type: 'scene',
+                id: newScene,
+                text: $.trim($(val).text()),
+                position: Math.floor(sceneLocation) - 3
+                }).appendTo($('#docmap'));
+        });
+
+        calculateAnniePositions();
+        calculateDocPosition();
+    };
+
+    calculateDocMap();
 
     /* 
      *
@@ -123,6 +144,7 @@ $(document).ready(function(){
         $(annie).parent().children('.line').toggleClass('col-md-6').toggleClass('col-md-3').toggleClass('highlight');
         $(annie).toggleClass('col-md-3').toggleClass('col-md-6');
         $(annie).toggleClass('opened');
+        calculateDocMap();
     };
 
     $('.text').on('click', '.annie-toggle', toggleSpans);
@@ -158,6 +180,7 @@ $(document).ready(function(){
                     annotations: [stuff]
                 };
                 $('#annotations-template').tmpl(moreStuff).appendTo($(container));
+                calculateDocMap();
             }
             // clear the input form
             $('input[type="text"]').val('');
@@ -166,13 +189,11 @@ $(document).ready(function(){
     });
 
     $(document).on('scroll', function(e) {
-        var bottomOfWindow = $(window).height() + $(window).scrollTop();
-        var percentComplete = (bottomOfWindow - $('#hamlet').offset().top) / $('#hamlet').height();
-
-        if (percentComplete > 1) {
-            percentComplete = 1;
-        }
-
-        $('#status').css('top', (percentComplete * $('#progress-bar').height()).toString() + 'px');
+        calculateDocPosition();
     });
+
+    $(window).on('resize', function(e) {
+        calculateDocMap();
+     });
+
 });

@@ -12,8 +12,8 @@
 </head>
 <body>
 
-{% block progress_bar %}
-<div id="progress-bar" class="visible-md visible-lg">
+{% block docmap %}
+<div id="docmap" class="visible-md visible-lg">
     <span id="status"><span class="glyphicon glyphicon-chevron-left"></span></span>
 </div>
 {% endblock %}
@@ -88,7 +88,7 @@
     </div>
 </script>
 
-<script type="text/html" id="progress-item-template" type="text/x-jquery-tmpl">
+<script type="text/html" id="docmap-item-template" type="text/x-jquery-tmpl">
     {% raw %}
     <a href="#${id}" class="${ type }" style="top: ${position}px" title="${ text }">
         {{if type=='act'}}
